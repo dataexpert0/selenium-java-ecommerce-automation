@@ -20,9 +20,11 @@ src/
     └── java/
         └── com/example/qa/
             ├── pages/
-            │   └── LoginPage.java
+                └── LoginPage.java
+                └── InventoryPage.java
             └── tests/
                 └── LoginTest.java
+                └── InventoryTest.java
 ```
 
 The project follows the Page Object Model pattern to separate page interactions from test logic.
