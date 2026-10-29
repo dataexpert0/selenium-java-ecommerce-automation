@@ -8,12 +8,42 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTest {
+
+// Introdução de teste parametrizado para validar diferentes cenários de login inválido, utilizando o JUnit 5 e Selenium WebDriver. O teste verifica se a aplicação rejeita corretamente credenciais inválidas, incluindo usuários bloqueados, usuários inexistentes e combinações incorretas de nome de usuário e senha.
+@ParameterizedTest(name = "[{index}] Usuário: {0}")
+@CsvSource({
+    "locked_out_user, secret_sauce, locked out",
+    "standard_user, senha123, Username and password do not match",
+    "usuario_inexistente, secret_sauce, Username and password do not match",
+    // Adição extra: usuário com senha vazia
+    "visual_user, '', Password is required" 
+})
+
+void deveRejeitarCredenciaisInvalidas(
+    // Dados pareados com o CSVSource, representando diferentes combinações de usuário, senha e a mensagem de erro esperada.
+        String usuario,
+        String senha,
+        String mensagemEsperada) {
+
+    loginPage.preencherUsuario(usuario);
+    loginPage.preencherSenha(senha);
+    loginPage.clicarLogin();
+
+    String mensagemObtida = loginPage.obterMensagemErro();
+
+    assertTrue(
+        mensagemObtida.contains(mensagemEsperada),
+        "A mensagem de erro não corresponde ao esperado."
+    );
+}
 
     private WebDriver driver;
     private LoginPage loginPage;
