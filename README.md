@@ -44,6 +44,23 @@ The project follows the Page Object Model pattern to separate page interactions 
 
 The authentication suite includes **parameterized testing** using JUnit 5 `@ParameterizedTest` and `@CsvSource`, enabling multiple input combinations to be tested with reusable logic.
 
+### Inventory and Product Tests
+---
+
+| Test ID | Test Scenario | Expected Result |
+|---|---|---|
+| INV-001 | Verify product catalog display | The inventory page displays at least one product |
+| INV-002 | Sort products by price (low to high) | Products are displayed in ascending price order |
+| INV-003 | Add a product to the shopping cart | The shopping cart badge displays `1` |
+
+**Test Class:** `InventoryTest.java`
+
+**Page Object:** `InventoryPage.java`
+
+These tests validate product listing, price sorting, and shopping cart interactions using Selenium WebDriver and JUnit 5.
+
+The price sorting test uses Java collections and comparators to independently verify the order of product prices.
+
 ## Running the Tests
 
 ### Prerequisites
@@ -98,7 +115,7 @@ This project currently demonstrates:
 - [x] Implement Page Object Model for authentication
 - [x] Implement positive and negative login scenarios
 - [x] Implement parameterized login tests
-- [ ] Automate inventory and product validation
+- [x] Automate inventory and product validation
 - [ ] Automate shopping cart operations
 - [ ] Automate checkout functionality
 - [ ] Add automated test reports
