@@ -22,55 +22,51 @@ public class CartPage {
     public CartPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(
-            driver, Duration.ofSeconds(10)
-        );
+                driver, Duration.ofSeconds(10));
 
         wait.until(
-            ExpectedConditions.urlContains("/cart.html")
-        );
+                ExpectedConditions.urlContains("/cart.html"));
     }
 
     public int contarItens() {
         return driver.findElements(itens).size();
     }
 
+    public CheckoutInformationPage iniciarCheckout() {
+        driver.findElement(By.id("checkout")).click();
+
+        return new CheckoutInformationPage(driver);
+    }
+
     public List<String> obterNomesProdutos() {
         return driver.findElements(nomes)
-            .stream()
-            .map(WebElement::getText)
-            .toList();
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 
     public double obterPrecoProduto(String nome) {
         WebElement item = driver.findElements(itens)
-            .stream()
-            .filter(elemento ->
-                elemento.findElement(nomes)
-                    .getText().equals(nome)
-            )
-            .findFirst()
-            .orElseThrow(() ->
-                new IllegalArgumentException(
-                    "Produto não encontrado: " + nome
-                )
-            );
+                .stream()
+                .filter(elemento -> elemento.findElement(nomes)
+                        .getText().equals(nome))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Produto não encontrado: " + nome));
 
         String preco = item.findElement(precos)
-            .getText()
-            .replace("$", "");
+                .getText()
+                .replace("$", "");
 
         return Double.parseDouble(preco);
     }
 
     public void removerMochila() {
         driver.findElement(
-            By.id("remove-sauce-labs-backpack")
-        ).click();
+                By.id("remove-sauce-labs-backpack")).click();
     }
 
     public void aguardarQuantidadeItens(int quantidade) {
-        wait.until(driver ->
-            driver.findElements(itens).size() == quantidade
-        );
+        wait.until(driver -> driver.findElements(itens).size() == quantidade);
     }
 }

@@ -1,4 +1,3 @@
-
 package com.example.qa.tests;
 
 import com.example.qa.pages.LoginPage;
@@ -19,7 +18,7 @@ public class LoginTest extends BaseTest {
     // Teste parametrizado para validar diferentes cenários de login inválido.
     // Utiliza o JUnit 5 e Selenium WebDriver para verificar se a aplicação rejeita corretamente credenciais inválidas.
     // Inclui casos de usuários bloqueados, usuários inexistentes e combinações incorretas de nome de usuário e senha.
-    
+
 @ParameterizedTest(name = "[{index}] Usuário: {0}")
 @CsvSource({
     "locked_out_user, secret_sauce, locked out",
