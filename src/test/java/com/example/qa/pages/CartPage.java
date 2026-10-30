@@ -62,8 +62,16 @@ public class CartPage {
     }
 
     public void removerMochila() {
-        driver.findElement(
-                By.id("remove-sauce-labs-backpack")).click();
+
+        By botaoRemover = By.id("remove-sauce-labs-backpack");
+
+        wait.ignoring(
+                org.openqa.selenium.StaleElementReferenceException.class).until(driver -> {
+
+                    driver.findElement(botaoRemover).click();
+
+                    return true;
+                });
     }
 
     public void aguardarQuantidadeItens(int quantidade) {
