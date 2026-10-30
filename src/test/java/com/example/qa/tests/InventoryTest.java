@@ -3,26 +3,21 @@ package com.example.qa.tests;
 
 import com.example.qa.pages.LoginPage;
 import com.example.qa.pages.InventoryPage;
+import com.example.qa.base.BaseTest;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InventoryTest {
+public class InventoryTest extends BaseTest {
 
-    private WebDriver driver;
     private InventoryPage inventoryPage;
 
     @BeforeEach
-    void configurar() {
-        driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
+    void configurarInventario() {
 
         LoginPage loginPage = new LoginPage(driver);
 
@@ -38,9 +33,8 @@ public class InventoryTest {
         int quantidade = inventoryPage.contarProdutos();
 
         assertTrue(
-            quantidade > 0,
-            "O catálogo deveria conter produtos."
-        );
+                quantidade > 0,
+                "O catálogo deveria conter produtos.");
     }
 
     @Test
@@ -55,10 +49,9 @@ public class InventoryTest {
         assertFalse(precos.isEmpty());
 
         assertEquals(
-            precosOrdenados,
-            precos,
-            "Os produtos deveriam estar ordenados por preço crescente."
-        );
+                precosOrdenados,
+                precos,
+                "Os produtos deveriam estar ordenados por preço crescente.");
     }
 
     @Test
@@ -68,12 +61,5 @@ public class InventoryTest {
         String quantidade = inventoryPage.obterQuantidadeCarrinho();
 
         assertEquals("1", quantidade);
-    }
-
-    @AfterEach
-    void encerrar() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }

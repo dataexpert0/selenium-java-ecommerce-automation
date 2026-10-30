@@ -4,24 +4,21 @@ package com.example.qa.tests;
 import com.example.qa.pages.LoginPage;
 import com.example.qa.pages.InventoryPage;
 import com.example.qa.pages.CartPage;
+import com.example.qa.base.BaseTest;
 
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CartTest {
+public class CartTest extends BaseTest {
 
-    private WebDriver driver;
     private InventoryPage inventoryPage;
 
     @BeforeEach
-    void configurar() {
-        driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
+    void configurarCarrinho() {
 
         LoginPage loginPage = new LoginPage(driver);
+
         loginPage.preencherUsuario("standard_user");
         loginPage.preencherSenha("secret_sauce");
         loginPage.clicarLogin();
@@ -33,13 +30,21 @@ public class CartTest {
     void deveAdicionarProdutoAoCarrinho() {
         inventoryPage.adicionarMochilaAoCarrinho();
 
+        // Confirma que o catálogo registrou a adição.
+        assertEquals(
+                "1",
+                inventoryPage.obterQuantidadeCarrinho());
+
         CartPage cartPage = inventoryPage.abrirCarrinho();
 
+        // Aguarda o carrinho apresentar o item esperado.
+        cartPage.aguardarQuantidadeItens(1);
+
         assertEquals(1, cartPage.contarItens());
+
         assertTrue(
-            cartPage.obterNomesProdutos()
-                .contains("Sauce Labs Backpack")
-        );
+                cartPage.obterNomesProdutos()
+                        .contains("Sauce Labs Backpack"));
     }
 
     @Test
@@ -51,13 +56,11 @@ public class CartTest {
 
         assertEquals(2, cartPage.contarItens());
         assertTrue(
-            cartPage.obterNomesProdutos()
-                .contains("Sauce Labs Backpack")
-        );
+                cartPage.obterNomesProdutos()
+                        .contains("Sauce Labs Backpack"));
         assertTrue(
-            cartPage.obterNomesProdutos()
-                .contains("Sauce Labs Bike Light")
-        );
+                cartPage.obterNomesProdutos()
+                        .contains("Sauce Labs Bike Light"));
     }
 
     @Test
@@ -69,30 +72,20 @@ public class CartTest {
         cartPage.aguardarQuantidadeItens(0);
 
         assertFalse(
-            cartPage.obterNomesProdutos()
-                .contains("Sauce Labs Backpack")
-        );
+                cartPage.obterNomesProdutos()
+                        .contains("Sauce Labs Backpack"));
     }
 
     @Test
     void deveManterPrecoProdutoNoCarrinho() {
-        double precoCatalogo =
-            inventoryPage.obterPrecoMochila();
+        double precoCatalogo = inventoryPage.obterPrecoMochila();
 
         inventoryPage.adicionarMochilaAoCarrinho();
 
         CartPage cartPage = inventoryPage.abrirCarrinho();
 
-        double precoCarrinho =
-            cartPage.obterPrecoProduto("Sauce Labs Backpack");
+        double precoCarrinho = cartPage.obterPrecoProduto("Sauce Labs Backpack");
 
         assertEquals(precoCatalogo, precoCarrinho);
-    }
-
-    @AfterEach
-    void encerrar() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }

@@ -4,20 +4,22 @@ package com.example.qa.tests;
 import com.example.qa.pages.LoginPage;
 
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import com.example.qa.base.BaseTest;
 
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LoginTest {
+public class LoginTest extends BaseTest {
 
-// Introdução de teste parametrizado para validar diferentes cenários de login inválido, utilizando o JUnit 5 e Selenium WebDriver. O teste verifica se a aplicação rejeita corretamente credenciais inválidas, incluindo usuários bloqueados, usuários inexistentes e combinações incorretas de nome de usuário e senha.
+    // Teste parametrizado para validar diferentes cenários de login inválido.
+    // Utiliza o JUnit 5 e Selenium WebDriver para verificar se a aplicação rejeita corretamente credenciais inválidas.
+    // Inclui casos de usuários bloqueados, usuários inexistentes e combinações incorretas de nome de usuário e senha.
+    
 @ParameterizedTest(name = "[{index}] Usuário: {0}")
 @CsvSource({
     "locked_out_user, secret_sauce, locked out",
@@ -45,13 +47,10 @@ void deveRejeitarCredenciaisInvalidas(
     );
 }
 
-    private WebDriver driver;
     private LoginPage loginPage;
 
     @BeforeEach
     void configurar() {
-        driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
         loginPage = new LoginPage(driver);
     }
 
@@ -83,12 +82,5 @@ void deveRejeitarCredenciaisInvalidas(
         String erro = loginPage.obterMensagemErro();
 
         assertTrue(erro.contains("locked out"));
-    }
-
-    @AfterEach
-    void encerrar() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }
