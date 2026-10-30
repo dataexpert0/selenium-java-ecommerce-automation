@@ -26,6 +26,9 @@ public class CheckoutInformationPage {
 
         wait.until(ExpectedConditions.urlContains(
                 "/checkout-step-one.html"));
+
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(primeiroNome));
     }
 
     public CheckoutOverviewPage avancarParaResumo() {
@@ -38,9 +41,14 @@ public class CheckoutInformationPage {
             String ultimoNome,
             String cep) {
 
-        driver.findElement(primeiroNome).sendKeys(nome);
-        driver.findElement(sobrenome).sendKeys(ultimoNome);
-        driver.findElement(codigoPostal).sendKeys(cep);
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(primeiroNome)).sendKeys(nome);
+
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(sobrenome)).sendKeys(ultimoNome);
+
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(codigoPostal)).sendKeys(cep);
     }
 
     public void clicarContinuar() {

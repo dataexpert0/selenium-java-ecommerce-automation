@@ -32,9 +32,24 @@ public abstract class BaseTest {
 
     @BeforeEach
     protected void configurarNavegador() {
+
         ChromeOptions options = new ChromeOptions();
 
-        options.addArguments("--start-maximized");
+        // Evita alertas de senhas vazadas no ambiente de testes
+        options.setExperimentalOption(
+                "prefs",
+                java.util.Map.of(
+                        "profile.password_manager_leak_detection", false,
+                        "credentials_enable_service", false,
+                        "profile.password_manager_enabled", false));
+
+        // Configuração específica para integração contínua
+        if ("true".equalsIgnoreCase(System.getenv("CI"))) {
+            options.addArguments("--headless=new");
+            options.addArguments("--window-size=1920,1080");
+        } else {
+            options.addArguments("--start-maximized");
+        }
 
         driver = new ChromeDriver(options);
 
