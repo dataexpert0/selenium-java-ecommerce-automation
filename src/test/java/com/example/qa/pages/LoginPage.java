@@ -16,14 +16,12 @@ public class LoginPage {
     private final By usuario = By.id("user-name");
     private final By senha = By.id("password");
     private final By botaoLogin = By.id("login-button");
-    private final By mensagemErro =
-        By.cssSelector("[data-test='error']");
+    private final By mensagemErro = By.cssSelector("[data-test='error']");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(
-            driver, Duration.ofSeconds(10)
-        );
+                driver, Duration.ofSeconds(10));
     }
 
     public void preencherUsuario(String nome) {
@@ -40,9 +38,14 @@ public class LoginPage {
 
     public String obterMensagemErro() {
         return wait.until(
-            ExpectedConditions.visibilityOfElementLocated(
-                mensagemErro
-            )
-        ).getText();
+                ExpectedConditions.visibilityOfElementLocated(
+                        mensagemErro))
+                .getText();
+    }
+
+    public void realizarLogin(String usuario, String senha) {
+        preencherUsuario(usuario);
+        preencherSenha(senha);
+        clicarLogin();
     }
 }

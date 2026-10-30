@@ -1,7 +1,5 @@
-
 package com.example.qa.tests;
 
-import com.example.qa.pages.LoginPage;
 import com.example.qa.pages.InventoryPage;
 import com.example.qa.base.BaseTest;
 
@@ -18,13 +16,7 @@ public class InventoryTest extends BaseTest {
 
     @BeforeEach
     void configurarInventario() {
-
-        LoginPage loginPage = new LoginPage(driver);
-
-        loginPage.preencherUsuario("standard_user");
-        loginPage.preencherSenha("secret_sauce");
-        loginPage.clicarLogin();
-
+        autenticarUsuarioPadrao();
         inventoryPage = new InventoryPage(driver);
     }
 

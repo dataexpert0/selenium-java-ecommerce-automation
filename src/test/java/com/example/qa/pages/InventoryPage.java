@@ -21,6 +21,13 @@ public class InventoryPage {
     private final By filtro = By.className("product_sort_container");
     private final By indicadorCarrinho = By.className("shopping_cart_badge");
 
+    public void aguardarQuantidadeCarrinho(int quantidade) {
+        wait.until(
+                ExpectedConditions.textToBePresentInElementLocated(
+                        indicadorCarrinho,
+                        String.valueOf(quantidade)));
+    }
+
     public void adicionarLuzBicicletaAoCarrinho() {
         driver.findElement(
                 By.id("add-to-cart-sauce-labs-bike-light")).click();

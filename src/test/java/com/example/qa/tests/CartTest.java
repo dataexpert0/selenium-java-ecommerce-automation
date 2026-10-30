@@ -1,7 +1,5 @@
-
 package com.example.qa.tests;
 
-import com.example.qa.pages.LoginPage;
 import com.example.qa.pages.InventoryPage;
 import com.example.qa.pages.CartPage;
 import com.example.qa.base.BaseTest;
@@ -10,19 +8,14 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Generalização com BaseTest para evitar duplicação de código de configuração e autenticação do usuário padrão antes de cada teste.
 public class CartTest extends BaseTest {
 
     private InventoryPage inventoryPage;
 
     @BeforeEach
     void configurarCarrinho() {
-
-        LoginPage loginPage = new LoginPage(driver);
-
-        loginPage.preencherUsuario("standard_user");
-        loginPage.preencherSenha("secret_sauce");
-        loginPage.clicarLogin();
-
+        autenticarUsuarioPadrao();
         inventoryPage = new InventoryPage(driver);
     }
 
@@ -52,12 +45,20 @@ public class CartTest extends BaseTest {
         inventoryPage.adicionarMochilaAoCarrinho();
         inventoryPage.adicionarLuzBicicletaAoCarrinho();
 
+        // Aguarda a confirmação dos dois produtos
+        inventoryPage.aguardarQuantidadeCarrinho(2);
+
         CartPage cartPage = inventoryPage.abrirCarrinho();
 
+        // Aguarda os dois itens aparecerem no carrinho
+        cartPage.aguardarQuantidadeItens(2);
+
         assertEquals(2, cartPage.contarItens());
+
         assertTrue(
                 cartPage.obterNomesProdutos()
                         .contains("Sauce Labs Backpack"));
+
         assertTrue(
                 cartPage.obterNomesProdutos()
                         .contains("Sauce Labs Bike Light"));
@@ -82,7 +83,13 @@ public class CartTest extends BaseTest {
 
         inventoryPage.adicionarMochilaAoCarrinho();
 
+        // Aguarda o indicador registrar a mochila
+        inventoryPage.aguardarQuantidadeCarrinho(1);
+
         CartPage cartPage = inventoryPage.abrirCarrinho();
+
+        // Aguarda a mochila aparecer no carrinho
+        cartPage.aguardarQuantidadeItens(1);
 
         double precoCarrinho = cartPage.obterPrecoProduto("Sauce Labs Backpack");
 
