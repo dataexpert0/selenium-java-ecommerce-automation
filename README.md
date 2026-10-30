@@ -1,4 +1,5 @@
 # Selenium Java E-commerce Automation
+[![Selenium Java CI](https://github.com/dataexpert0/selenium-java-ecommerce-automation/actions/workflows/selenium-tests.yml/badge.svg)](https://github.com/dataexpert0/selenium-java-ecommerce-automation/actions/workflows/selenium-tests.yml)
 
 Automated functional testing project for the [SauceDemo](https://www.saucedemo.com/) e-commerce application, developed using **Java, Selenium WebDriver, JUnit 5, and Maven**.
 
@@ -6,33 +7,57 @@ The project aims to demonstrate *software testing practices*, *test automation*,
 
 ## Tech Stack
 
-- **Java** — Programming language
+- **Java 21** — Programming language
 - **Selenium WebDriver** — Browser automation
 - **JUnit 5** — Test execution, assertions, and parameterized tests
 - **Apache Maven** — Dependency management and build automation
-- **Git & GitHub** — Version control
+- **Allure Report** — Test reporting and failure evidence
+- **GitHub Actions** — Continuous Integration (CI)
+- **Google Chrome** — Browser used for automated testing
+- **Git & GitHub** — Version control and repository hosting
 
 ## Project Structure
 
 ```text
+.github/
+└── workflows/
+    └── selenium-tests.yml
+
 src/
 └── test/
-    └── java/
-        └── com/example/qa/
-            ├── pages/
-                └── LoginPage.java
-                └── InventoryPage.java
-                └── CartPage.java
-            └── tests/
-                └── LoginTest.java
-                └── InventoryTest.java
-                └── CartTest.java
+    ├── java/com/example/qa/
+    │   ├── base/
+    │   │   └── BaseTest.java
+    │   ├── extensions/
+    │   │   └── ScreenshotOnFailureExtension.java
+    │   ├── pages/
+    │   │   ├── LoginPage.java
+    │   │   ├── InventoryPage.java
+    │   │   ├── CartPage.java
+    │   │   ├── CheckoutInformationPage.java
+    │   │   ├── CheckoutOverviewPage.java
+    │   │   └── CheckoutCompletePage.java
+    │   └── tests/
+    │       ├── LoginTest.java
+    │       ├── InventoryTest.java
+    │       ├── CartTest.java
+    │       ├── CheckoutTest.java
+    │       └── CheckoutOverviewTest.java
+    └── resources/
+        └── allure.properties
+
+pom.xml
+README.md
 ```
 
-The project follows the Page Object Model pattern to separate page interactions from test logic.
+The project follows the **Page Object Model (POM)** design pattern to separate browser interactions from test logic.
 
-- `pages/`: Contains page objects, element locators, and interaction methods.
-- `tests/`: Contains automated test scenarios and assertions.
+- `base/`: Shared browser initialization, teardown, and authentication helpers.
+- `extensions/`: JUnit 5 extensions for capturing screenshots on test failures.
+- `pages/`: Page objects, element locators, and browser interaction methods.
+- `tests/`: Automated test scenarios and assertions.
+- `resources/`: Allure reporting configuration.
+- `.github/workflows/`: Automated CI pipeline configuration.
 
 ## Implemented Test Scenarios
 
@@ -142,6 +167,74 @@ mvn -Dtest=LoginTest test
 
 Maven will compile the project, resolve dependencies, and execute the automated tests.
 
+## Continuous Integration (CI)
+
+This project uses **GitHub Actions** to automatically run the Selenium test suite on pushes and pull requests targeting the `main` branch.
+
+The CI pipeline:
+
+1. Checks out the repository.
+2. Configures Java 21 and Maven.
+3. Executes automated tests using headless Google Chrome.
+4. Generates an Allure test report.
+5. Uploads test results and available failure screenshots as workflow artifacts.
+
+The automated suite currently includes **20 test executions**, covering authentication, inventory management, shopping cart operations, checkout validation, and order completion.
+
+[View GitHub Actions workflow](https://github.com/dataexpert0/selenium-java-ecommerce-automation/actions)
+
+## Test Reporting and Failure Evidence
+
+The project integrates **Allure Report** with JUnit 5 to provide detailed execution results and diagnostic information.
+
+### Generate Allure Reports
+
+Run the complete test suite:
+
+```bash
+mvn clean test
+```
+
+Generate the Allure report:
+
+```bash
+mvn allure:report
+```
+
+Open the interactive report locally:
+
+```bash
+mvn allure:serve
+```
+
+Test results are generated in `target/allure-results/`.
+
+---
+
+### Automatic Failure Screenshots
+
+The project implements a custom JUnit 5 extension named `ScreenshotOnFailureExtension`.
+
+When a test method fails, the extension:
+
+- Detects the failed test execution.
+- Captures a screenshot using Selenium's `TakesScreenshot` interface.
+- Saves the PNG file in `target/screenshots/`.
+- Attaches the screenshot to the corresponding Allure test result.
+
+This functionality helps diagnose UI failures, synchronization issues, and unexpected application behavior.
+
+### CI Artifacts
+
+The GitHub Actions workflow is configured to preserve available test evidence, including:
+
+- Maven Surefire execution reports
+- Allure test results
+- Generated Allure reports
+- Failure screenshots
+
+Artifacts can be accessed from the corresponding GitHub Actions workflow execution.
+
 ## Testing Practices
 
 This project currently demonstrates:
@@ -153,6 +246,11 @@ This project currently demonstrates:
 - **Assertions** and **expected-result** validation
 - Test isolation using `@BeforeEach` and `@AfterEach`
 - **Explicit waits for synchronization**
+- Continuous Integration with GitHub Actions
+- Automated failure screenshots using JUnit 5 extensions
+- Test reporting and evidence attachments with Allure
+- Headless browser execution in CI environments
+- Monetary validations using BigDecimal
 
 ## Roadmap
 
@@ -165,6 +263,7 @@ This project currently demonstrates:
 - [x] Automate checkout functionality
 - [x] Add automated test reports
 - [x] Configure GitHub Actions for continuous integration (CI)
+- [x] Validate test evidence uploads in GitHub Actions
 
 ## Application Under Test
 
