@@ -81,6 +81,31 @@ The price sorting test uses Java collections and comparators to independently ve
 
 These scenarios validate cart operations, product identification, removal behavior, and price consistency across different pages.
 
+---
+
+### Checkout Information Tests
+
+| Test ID | Test Scenario | Expected Result |
+|---|---|---|
+| CHK-001 | Proceed to checkout with valid customer information | The user is redirected to the checkout overview page |
+| CHK-002 | Attempt checkout with an empty first name | An error message is displayed indicating that the first name is required |
+| CHK-003 | Attempt checkout with an empty last name | An error message is displayed indicating that the last name is required |
+| CHK-004 | Attempt checkout with an empty postal code | An error message is displayed indicating that the postal code is required |
+
+**Test Class:** `CheckoutTest.java`
+
+**Page Object:** `CheckoutInformationPage.java`
+
+**Test Coverage:** 4 test scenarios implemented through 2 test methods (1 standard test and 1 parameterized test with 3 data sets).
+
+These tests validate the checkout information form, including successful navigation with valid customer information and validation of required fields.
+
+The negative scenarios use JUnit 5 `@ParameterizedTest` and `@CsvSource` to verify multiple input combinations without duplicating test logic.
+
+Each invalid submission is verified against two conditions:
+- The application displays the expected error message.
+- The user remains on the checkout information page.
+
 ## Running the Tests
 
 ### Prerequisites
