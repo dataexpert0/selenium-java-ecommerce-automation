@@ -22,9 +22,11 @@ src/
             ├── pages/
                 └── LoginPage.java
                 └── InventoryPage.java
+                └── CartPage.java
             └── tests/
                 └── LoginTest.java
                 └── InventoryTest.java
+                └── CartTest.java
 ```
 
 The project follows the Page Object Model pattern to separate page interactions from test logic.
@@ -62,6 +64,20 @@ The authentication suite includes **parameterized testing** using JUnit 5 `@Para
 These tests validate product listing, price sorting, and shopping cart interactions using Selenium WebDriver and JUnit 5.
 
 The price sorting test uses Java collections and comparators to independently verify the order of product prices.
+
+### Shopping Cart Tests
+
+| Test ID | Test Scenario | Expected Result |
+|---|---|---|
+| CART-001 | Add a product to the cart | The selected product appears in the cart |
+| CART-002 | Add two products to the cart | Both products are present |
+| CART-003 | Remove a product from the cart | The removed product is no longer displayed |
+| CART-004 | Verify product price consistency | The product price matches the inventory price |
+
+**Test Class:** `CartTest.java`  
+**Page Object:** `CartPage.java`
+
+These scenarios validate cart operations, product identification, removal behavior, and price consistency across different pages.
 
 ## Running the Tests
 
@@ -118,7 +134,7 @@ This project currently demonstrates:
 - [x] Implement positive and negative login scenarios
 - [x] Implement parameterized login tests
 - [x] Automate inventory and product validation
-- [ ] Automate shopping cart operations
+- [x] Automate shopping cart operations
 - [ ] Automate checkout functionality
 - [ ] Add automated test reports
 - [ ] Configure GitHub Actions for continuous integration
