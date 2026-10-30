@@ -21,15 +21,36 @@ public class InventoryPage {
     private final By filtro = By.className("product_sort_container");
     private final By indicadorCarrinho = By.className("shopping_cart_badge");
 
+    public void adicionarLuzBicicletaAoCarrinho() {
+        driver.findElement(
+                By.id("add-to-cart-sauce-labs-bike-light")).click();
+    }
+
+    public double obterPrecoMochila() {
+        WebElement produto = driver.findElement(
+                By.id("add-to-cart-sauce-labs-backpack")).findElement(
+                        By.xpath("./ancestor::div[contains(@class,'inventory_item')]"));
+
+        String preco = produto.findElement(
+                By.className("inventory_item_price")).getText().replace("$", "");
+
+        return Double.parseDouble(preco);
+    }
+
+    public CartPage abrirCarrinho() {
+        driver.findElement(
+                By.className("shopping_cart_link")).click();
+
+        return new CartPage(driver);
+    }
+
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(
-            driver, Duration.ofSeconds(10)
-        );
+                driver, Duration.ofSeconds(10));
 
         wait.until(
-            ExpectedConditions.visibilityOfElementLocated(produtos)
-        );
+                ExpectedConditions.visibilityOfElementLocated(produtos));
     }
 
     public int contarProdutos() {
@@ -45,24 +66,22 @@ public class InventoryPage {
 
     public List<Double> obterPrecos() {
         return driver.findElements(precos)
-            .stream()
-            .map(elemento -> elemento.getText())
-            .map(texto -> texto.replace("$", ""))
-            .map(Double::parseDouble)
-            .toList();
+                .stream()
+                .map(elemento -> elemento.getText())
+                .map(texto -> texto.replace("$", ""))
+                .map(Double::parseDouble)
+                .toList();
     }
 
     public void adicionarMochilaAoCarrinho() {
         driver.findElement(
-            By.id("add-to-cart-sauce-labs-backpack")
-        ).click();
+                By.id("add-to-cart-sauce-labs-backpack")).click();
     }
 
     public String obterQuantidadeCarrinho() {
         return wait.until(
-            ExpectedConditions.visibilityOfElementLocated(
-                indicadorCarrinho
-            )
-        ).getText();
+                ExpectedConditions.visibilityOfElementLocated(
+                        indicadorCarrinho))
+                .getText();
     }
 }
