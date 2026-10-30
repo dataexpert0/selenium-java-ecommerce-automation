@@ -162,9 +162,9 @@ This project currently demonstrates:
 - [x] Implement parameterized login tests
 - [x] Automate inventory and product validation
 - [x] Automate shopping cart operations
-- [ ] Automate checkout functionality
-- [ ] Add automated test reports
-- [ ] Configure GitHub Actions for continuous integration
+- [x] Automate checkout functionality
+- [x] Add automated test reports
+- [x] Configure GitHub Actions for continuous integration (CI)
 
 ## Application Under Test
 
