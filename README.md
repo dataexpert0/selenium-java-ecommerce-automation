@@ -64,6 +64,7 @@ The authentication suite includes **parameterized testing** using JUnit 5 `@Para
 These tests validate product listing, price sorting, and shopping cart interactions using Selenium WebDriver and JUnit 5.
 
 The price sorting test uses Java collections and comparators to independently verify the order of product prices.
+
 ---
 
 ### Shopping Cart Tests
