@@ -2,6 +2,8 @@ package com.example.qa.base;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import com.example.qa.extensions.ScreenshotOnFailureExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,6 +14,7 @@ import java.time.Duration;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+@ExtendWith(ScreenshotOnFailureExtension.class)
 public abstract class BaseTest {
 
     protected WebDriver driver;
@@ -28,6 +31,10 @@ public abstract class BaseTest {
 
         wait.until(
                 ExpectedConditions.urlContains("/inventory.html"));
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 
     @BeforeEach
