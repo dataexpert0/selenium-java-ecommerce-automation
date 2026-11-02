@@ -61,6 +61,23 @@ The project follows the **Page Object Model (POM)** design pattern to separate b
 
 ## Implemented Test Scenarios
 
+### Test Coverage Summary
+
+| Test Suite | Test Executions |
+|---|---:|
+| Authentication | 6 |
+| Inventory | 3 |
+| Shopping Cart | 4 |
+| Checkout Information | 4 |
+| Checkout Overview and Order Completion | 3 |
+| **Total** | **20** |
+
+The test suite covers the main e-commerce user journey, from authentication and product selection to checkout validation and order confirmation.
+
+Parameterized tests are counted individually based on their executed input combinations.
+
+---
+
 ### Authentication
 
 | Test scenario | Expected result |
@@ -130,6 +147,26 @@ The negative scenarios use JUnit 5 `@ParameterizedTest` and `@CsvSource` to veri
 Each invalid submission is verified against two conditions:
 - The application displays the expected error message.
 - The user remains on the checkout information page.
+
+---
+
+### Checkout Overview and Order Completion Tests
+
+| Test ID | Test Scenario | Expected Result |
+|---|---|---|
+| CHK-005 | Validate order subtotal | The subtotal matches the sum of individual product prices |
+| CHK-006 | Validate order total calculation | The total amount equals the subtotal plus tax |
+| CHK-007 | Complete an order successfully | A confirmation message is displayed after completing checkout |
+
+**Test Class:** `CheckoutOverviewTest.java`
+
+**Page Objects:** `CheckoutOverviewPage.java`, `CheckoutCompletePage.java`
+
+**Test Coverage:** 3 automated test scenarios.
+
+These tests validate the financial consistency of the order summary and the successful completion of the checkout process.
+
+Monetary values are handled using Java's `BigDecimal` class to avoid floating-point precision issues when comparing prices, subtotals, taxes, and totals.
 
 ## Running the Tests
 
