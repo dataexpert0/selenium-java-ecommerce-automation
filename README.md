@@ -91,7 +91,6 @@ Parameterized tests are counted individually based on their executed input combi
 The authentication suite includes **parameterized testing** using JUnit 5 `@ParameterizedTest` and `@CsvSource`, enabling multiple input combinations to be tested with reusable logic.
 
 ### Inventory and Product Tests
----
 
 | Test ID | Test Scenario | Expected Result |
 |---|---|---|
